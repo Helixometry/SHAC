@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHAC: Towards Detecting Neural Audio Codec Synthesized Heart Sounds</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Serif+4:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Source Sans 3', sans-serif; background: #fff; color: #2d2d2d; font-size: 17px; line-height: 1.7; }
+    a { color: #3273dc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 56px 0; }
+    section:nth-child(even) { background: #fafafa; }
+    hr { border: none; border-top: 1px solid #e8e8e8; margin: 0; }
+    .hero { padding: 72px 20px 56px; text-align: center; background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%); }
+    .venue-badge { display: inline-block; background: #f0f4ff; color: #3273dc; border: 1px solid #c8d8f8; border-radius: 999px; padding: 5px 16px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 22px; text-transform: uppercase; }
+    .paper-title { font-family: 'Source Serif 4', serif; font-size: clamp(1.85rem, 3.9vw, 2.9rem); font-weight: 700; line-height: 1.18; color: #111; max-width: 820px; margin: 0 auto 18px; }
+    .authors { font-size: 1rem; color: #2d2d2d; margin-bottom: 8px; line-height: 1.8; font-weight: 600; }
+    .authors sup { color: #3273dc; }
+    .affiliations { font-size: 0.9rem; color: #6b7280; margin-bottom: 10px; }
+    .hero-meta { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 28px; color: #6b7280; font-size: 0.84rem; }
+    .hero-meta span { display: inline-flex; align-items: center; gap: 8px; }
+    .hero-meta span:not(:last-child)::after { content: "|"; color: #b0b7c3; margin-left: 8px; }
+    .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 42px; }
+    .link-btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 20px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; border: 2px solid #222; color: #222; background: #fff; transition: background 0.15s, color 0.15s; text-decoration: none; }
+    .link-btn:hover { background: #222; color: #fff; text-decoration: none; }
+    .link-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .hero-stage { max-width: 980px; margin: 0 auto; }
+    .hero-intro { max-width: 760px; margin: 0 auto 28px; text-align: center; }
+    .hero-lead { font-size: 1.02rem; line-height: 1.8; color: #485264; margin-bottom: 18px; }
+    .hero-points { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; color: #5f6775; font-size: 0.9rem; }
+    .hero-point { position: relative; padding-left: 14px; }
+    .hero-point::before { content: ""; position: absolute; left: 0; top: 0.58rem; width: 6px; height: 6px; border-radius: 50%; background: #3273dc; }
+    .hero-figure { border: 1px solid #e5e7eb; border-radius: 18px; background: #fff; padding: 22px 24px 18px; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05); }
+    .figure-label { text-align: center; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #3273dc; margin-bottom: 16px; }
+    .pipeline { display: grid; grid-template-columns: 1fr 80px 1fr 80px 1.15fr; gap: 8px; align-items: center; }
+    .figure-box { border: 1px solid #d9dee8; border-radius: 12px; background: #fff; padding: 16px 14px; min-height: 180px; text-align: left; }
+    .figure-box.output-box { background: #fafcff; }
+    .figure-kicker { display: inline-block; margin-bottom: 8px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #3273dc; }
+    .figure-title { font-size: 1rem; font-weight: 700; color: #111; margin-bottom: 8px; }
+    .figure-text { font-size: 0.84rem; line-height: 1.6; color: #4b5563; }
+    .figure-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .figure-tag { display: inline-block; font-size: 0.71rem; padding: 3px 8px; border-radius: 999px; background: #f1f5f9; color: #506070; }
+    .arrow-col { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+    .arrow-line { width: 100%; height: 2px; background: linear-gradient(90deg, #cfd8e6 0%, #3273dc 100%); position: relative; }
+    .arrow-line::after { content: ""; position: absolute; right: -1px; top: -4px; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 8px solid #3273dc; }
+    .arrow-text { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; color: #6b7280; text-transform: uppercase; text-align: center; }
+    .output-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .output-node { border: 1px solid #d8e0ee; border-radius: 10px; background: #fff; padding: 10px; }
+    .output-node-head { font-size: 0.71rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #3273dc; margin-bottom: 4px; }
+    .output-node-body { font-size: 0.8rem; color: #4b5563; line-height: 1.45; }
+    .figure-caption { font-size: 0.87rem; color: #5f6775; line-height: 1.7; max-width: 760px; margin: 16px auto 0; text-align: center; }
+    .section-heading { font-family: 'Source Serif 4', serif; font-size: 1.55rem; font-weight: 700; color: #111; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #111; }
+    .abstract-text { font-size: 0.97rem; line-height: 1.85; color: #333; max-width: 760px; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .tag { display: inline-block; padding: 3px 12px; border-radius: 4px; font-size: 0.78rem; font-weight: 600; background: #f0f0f0; color: #444; }
+    .contrib-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .contrib-list li { display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; background: #fff; border: 1px solid #e8e8e8; border-radius: 8px; font-size: 0.93rem; color: #333; }
+    .contrib-list li:hover { border-color: #3273dc; }
+    .contrib-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; font-weight: 700; color: #3273dc; }
+    .method-steps { display: flex; flex-direction: column; border: 1px solid #e8e8e8; border-radius: 8px; overflow: hidden; margin-bottom: 28px; }
+    .method-step { display: flex; align-items: flex-start; gap: 16px; padding: 18px 22px; border-bottom: 1px solid #e8e8e8; background: #fff; font-size: 0.92rem; }
+    .method-step:last-child { border-bottom: none; }
+    .method-step:hover { background: #f8f9ff; }
+    .step-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: #3273dc; color: #fff; font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+    .method-step h4 { font-size: 0.93rem; font-weight: 700; margin-bottom: 3px; color: #111; }
+    .method-step p { color: #555; line-height: 1.6; }
+    .eq-box { background: #f5f7fb; border-left: 3px solid #3273dc; border-radius: 0 6px 6px 0; padding: 14px 20px; font-size: 0.88rem; color: #333; margin: 16px 0; font-family: 'Courier New', monospace; overflow-x: auto; }
+    .method-figure { text-align: center; margin: 28px 0; }
+    .method-figure img { max-width: 100%; border: 1px solid #e8e8e8; border-radius: 10px; background: #fff; padding: 12px; }
+    .method-figure-caption { font-size: 0.85rem; color: #777; margin-top: 10px; }
+    .comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-top: 20px; }
+    .comp-card, .ds-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px 18px; }
+    .comp-card .comp-tag { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; color: #3273dc; text-transform: uppercase; margin-bottom: 6px; }
+    .comp-card h4, .ds-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 5px; color: #111; }
+    .comp-card p, .ds-card p { font-size: 0.82rem; color: #666; line-height: 1.55; }
+    .results-note { font-size: 0.88rem; color: #666; margin-bottom: 16px; line-height: 1.6; }
+    .table-wrap, .sample-table-wrap { overflow-x: auto; margin-bottom: 10px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    thead th { background: #f0f0f0; font-weight: 700; padding: 10px 12px; text-align: center; border: 1px solid #ddd; color: #222; white-space: nowrap; }
+    thead th:first-child { text-align: left; }
+    tbody td { padding: 9px 12px; text-align: center; border: 1px solid #e8e8e8; color: #444; vertical-align: middle; }
+    tbody td:first-child { text-align: left; font-weight: 600; color: #222; }
+    tbody tr:hover td { background: #f9f9f9; }
+    td.best { font-weight: 700; color: #1a7f3c; }
+    td.good { font-weight: 600; color: #3273dc; }
+    .table-caption { font-size: 0.82rem; color: #777; margin-top: 8px; line-height: 1.5; }
+    .ds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+    .ds-card .ds-lang { font-size: 0.75rem; font-weight: 700; color: #3273dc; margin-bottom: 6px; display: block; }
+    .ds-role { display: inline-block; margin-top: 8px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; }
+    .role-src { background: #e6f4ea; color: #1a7f3c; }
+    .role-codec { background: #eef4ff; color: #3273dc; }
+    audio { width: 180px; height: 34px; }
+    .condition-pill { display: inline-block; padding: 3px 10px; border-radius: 999px; background: #eef4ff; color: #3273dc; font-size: 0.76rem; font-weight: 700; }
+    .missing { color: #999; font-size: 0.82rem; }
+    .bibtex-wrap { position: relative; background: #f5f5f5; border: 1px solid #ddd; border-radius: 8px; padding: 22px 24px; font-family: 'Courier New', monospace; font-size: 0.83rem; color: #333; line-height: 1.75; overflow-x: auto; }
+    .copy-btn { position: absolute; top: 12px; right: 12px; background: #fff; border: 1px solid #ccc; border-radius: 5px; padding: 4px 12px; font-size: 0.78rem; font-weight: 600; cursor: pointer; color: #444; transition: all 0.15s; }
+    .copy-btn:hover { background: #3273dc; color: #fff; border-color: #3273dc; }
+    footer { background: #f5f5f5; border-top: 1px solid #e8e8e8; padding: 32px 20px; text-align: center; font-size: 0.83rem; color: #888; }
+    footer a { color: #3273dc; }
+    @media (max-width: 600px) {
+      .paper-title { font-size: 1.55rem; }
+      .hero-meta { display: flex; flex-direction: column; gap: 6px; }
+      .hero-meta span:not(:last-child)::after { display: none; }
+      .links { gap: 8px; }
+      .link-btn { padding: 7px 14px; font-size: 0.82rem; }
+      .pipeline { grid-template-columns: 1fr; }
+      .arrow-col { display: none; }
+      .output-pair { grid-template-columns: 1fr; }
+      audio { width: 150px; }
+    }
+  </style>
+</head>
+<body>
+<div class="hero">
+  <div class="venue-badge">Interspeech 2026</div>
+  <h1 class="paper-title">Towards Detecting Neural Audio Codec Synthesized Heart Sounds</h1>
+  <div class="authors">Girish<sup>*</sup> &nbsp;&nbsp; Orchid Chetia Phukan<sup>*</sup> &nbsp;&nbsp; Mohd Mujtaba Akhtar<sup>*</sup> &nbsp;&nbsp; Bhavinkumar Vinodbhai Kuwar &nbsp;&nbsp; Swarup Ranjan Behera &nbsp;&nbsp; Arun Balaji Buduru</div>
+  <div class="affiliations"><sup>*</sup>Equal Contribution as First Author</div>
+  <div class="hero-meta">
+    <span>Synthetic Heart Sound Detection (SHAC)</span>
+    <span>CARDIOFAKE Dataset</span>
+    <span>GROOT: Gram-OT Fusion</span>
+  </div>
+  <div class="links">
+    <a class="link-btn" href="HeartSound_Codecfake_INTERSPEECH26.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Paper</a>
+    <a class="link-btn" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>Code (Coming Soon)</a>
+    <a class="link-btn" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>Dataset (Coming Soon)</a>
+    <a class="link-btn" href="#samples"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 6 15 11 19 18 15 18 9 11 5"/><line x1="11" y1="12" x2="18" y2="9"/><line x1="11" y1="12" x2="11" y2="19"/><line x1="11" y1="12" x2="6" y2="9"/></svg>Audio Samples</a>
+  </div>
+  <div class="hero-stage">
+    <div class="hero-intro">
+      <p class="hero-lead">
+        Heart sounds (phonocardiograms, PCGs) have been regarded as a promising biometric modality due to their
+        natural resilience against traditional spoofing methods. We show that neural audio codecs (NACs) can
+        synthesize heart sounds that are perceptually indistinguishable from genuine recordings, introduce the
+        Synthetic Heart Sound Detection (SHAC) task and the CARDIOFAKE dataset, and propose GROOT, a Gram-OT based
+        fusion of spectral and SSL representations for detecting these codec-synthesized heart sounds.
+      </p>
+      <div class="hero-points">
+        <div class="hero-point">CirCor DigiScope heart sounds (963 patients, 3,163 recordings)</div>
+        <div class="hero-point">7 neural audio codec families, seen and unseen evaluation protocols</div>
+        <div class="hero-point">Real and codec-synthesized paired samples for CARDIOFAKE</div>
+      </div>
+    </div>
+
+    <div class="hero-figure">
+      <div class="figure-label">CARDIOFAKE Dataset Construction Pipeline</div>
+      <div class="pipeline">
+        <div class="figure-box">
+          <div class="figure-kicker">Input Audio</div>
+          <div class="figure-title">Real Phonocardiograms</div>
+          <div class="figure-text">
+            Real heart sound recordings are sourced from the CirCor DigiScope dataset (PhysioNet), spanning 963 patients with durations from 5 to 65 seconds.
+          </div>
+          <div class="figure-tags">
+            <span class="figure-tag">CirCor DigiScope</span>
+            <span class="figure-tag">3,163 recordings</span>
+          </div>
+        </div>
+        <div class="arrow-col">
+          <div class="arrow-line"></div>
+          <div class="arrow-text">Encode-Decode</div>
+        </div>
+        <div class="figure-box">
+          <div class="figure-kicker">Codec Stage</div>
+          <div class="figure-title">Neural Audio Codec Resynthesis</div>
+          <div class="figure-text">
+            Each PCG is passed through the encoder-decoder of a neural audio codec, preserving cardiac acoustic patterns while introducing subtle codec-induced artifacts.
+          </div>
+          <div class="figure-tags">
+            <span class="figure-tag">DAC</span>
+            <span class="figure-tag">EnCodec</span>
+            <span class="figure-tag">SoundStream</span>
+            <span class="figure-tag">SpeechTokenizer</span>
+            <span class="figure-tag">FunCodec</span>
+            <span class="figure-tag">AudioDec</span>
+            <span class="figure-tag">SNAC</span>
+          </div>
+        </div>
+        <div class="arrow-col">
+          <div class="arrow-line"></div>
+          <div class="arrow-text">Pairing</div>
+        </div>
+        <div class="figure-box output-box">
+          <div class="figure-kicker">Output Audio</div>
+          <div class="figure-title">Real and Spoof Paired Samples</div>
+          <div class="figure-text">
+            CARDIOFAKE retains the original phonocardiogram together with its codec-generated counterpart for every NAC, defining seen and unseen evaluation protocols.
+          </div>
+          <div class="output-pair">
+            <div class="output-node">
+              <div class="output-node-head">Real Audio</div>
+              <div class="output-node-body">Original phonocardiogram</div>
+            </div>
+            <div class="output-node">
+              <div class="output-node-head">Spoof Audio</div>
+              <div class="output-node-body">NAC-resynthesized counterpart</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="figure-caption">
+        CARDIOFAKE comprises 3,163 real heart sounds and 22,141 NAC-generated counterparts across 7 codec families, with seen (SNAC, DAC, EnCodec, SoundStream, SpeechTokenizer) and unseen (FunCodec, AudioDec) test protocols.
+      </p>
+    </div>
+  </div>
+</div>
+<hr/>
+<section id="abstract"><div class="container"><h2 class="section-heading">Abstract</h2><p class="abstract-text">In this paper, we introduce <strong>Synthetic Heart Sound Detection (SHAC)</strong>, a task aimed at identifying phonocardiograms (PCGs) synthesized using neural audio codecs (NACs). To facilitate research in this direction, we release <strong>CARDIOFAKE</strong>, the first benchmark dataset for SHAC containing both real and codec-synthesized PCGs.</p><br/><p class="abstract-text">We benchmark spectral representations (MFCC, LFCC) and self-supervised learning (SSL) representations (e.g., WavLM) for the task. Furthermore, we propose <strong>GROOT</strong>, a fusion framework that integrates spectral and SSL features for leveraging their complementary behavior.</p><br/><p class="abstract-text">Experiments show that GROOT, combining MFCC and WavLM, achieves state-of-the-art performance, outperforming individual representations and competitive baselines.</p><div class="tag-row"><span class="tag">Synthetic Heart Sound Detection</span><span class="tag">Phonocardiograms</span><span class="tag">Neural Audio Codecs</span><span class="tag">Spectral Features</span><span class="tag">Self-Supervised Learning</span><span class="tag">Optimal Transport</span><span class="tag">Interspeech 2026</span></div></div></section>
+<hr/>
+<section id="idea"><div class="container"><h2 class="section-heading">Key Contributions</h2><ul class="contrib-list"><li><div class="contrib-icon">1</div><div>We coin the novel task of <strong>Synthetic Heart Sound Detection (SHAC)</strong> as a new research direction for secure biometric authentication.</div></li><li><div class="contrib-icon">2</div><div>We release <strong>CARDIOFAKE</strong>, the first benchmark dataset for SHAC, containing both real and codec-synthesized heart sounds, and conduct a comprehensive evaluation of spectral and SSL-based representations.</div></li><li><div class="contrib-icon">3</div><div>We propose <strong>GROOT</strong>, a novel framework that integrates spectral and SSL representations via a grammian optimal transport (Gram-OT) mechanism, achieving SOTA performance and outperforming individual representations and competitive baselines.</div></li></ul></div></section>
+<hr/>
+<section id="method"><div class="container"><h2 class="section-heading">Method</h2><p style="color:#444; margin-bottom:22px; font-size:0.95rem; line-height:1.8;">GROOT (Fusion via GRammian Optimal TranspOrT) fuses spectral and SSL representations for SHAC. Spectral features (MFCC, LFCC) are highly sensitive to NAC-induced distortions at the acoustic level, while SSL representations (Wav2vec2, UniSpeech-SAT, WavLM) capture broader temporal structure and variability in heart sounds. GROOT aligns these complementary representations using a novel grammian optimal transport mechanism that compares representations through their gram matrices rather than raw features.</p><div class="method-steps"><div class="method-step"><div class="step-num">1</div><div><h4>Feature extraction</h4><p>14-dim LFCC and 40-dim MFCC are extracted as spectral features. Wav2vec2, UniSpeech-SAT, and WavLM are used as SSL representations, each producing 768-dim features via average pooling over the final hidden layer.</p></div></div><div class="method-step"><div class="step-num">2</div><div><h4>1D-CNN and max-pooling</h4><p>Each representation (R1, R2) is passed through a 1D-CNN block (32 filters) followed by max-pooling, then flattened and linearly projected to a 120-dimensional vector.</p></div></div><div class="method-step"><div class="step-num">3</div><div><h4>Gram matrix computation</h4><p>Gram matrices GR1 = R1 R1^T and GR2 = R2 R2^T capture correlations between features and reflect global relational patterns, such as rhythm, across each representation space.</p></div></div><div class="method-step"><div class="step-num">4</div><div><h4>Grammian optimal transport (Gram-OT)</h4><p>A cost matrix is built from the Frobenius distance between the two gram matrices, and the Sinkhorn algorithm computes an optimal transport plan to align the two representation spaces.</p></div></div><div class="method-step"><div class="step-num">5</div><div><h4>Fusion and classification</h4><p>Transported features are concatenated with their original representations to form F1 and F2, passed through parallel FCNs, concatenated again, and classified by a final FCN with a sigmoid output for real-vs-spoof detection.</p></div></div></div><div class="method-figure"><img src="fig/Heartarchi.png" alt="GROOT framework diagram" /><p class="method-figure-caption">Figure: The GROOT framework. Two representation branches (R1, R2) are each processed by a 1D-CNN and max-pooling, flattened, and aligned via the Gram-OT fusion module before classification.</p></div><p style="font-size:0.9rem; color:#444; margin-bottom:14px; font-weight:600;">Gram-OT Alignment</p><div class="eq-box">GR1 = R1 R1^T,  GR2 = R2 R2^T
+M = ||GR1 - GR2||_F / max(||GR1 - GR2||_F)
+Gamma = Sinkhorn(M)
+R2-&gt;R1 = Gamma . R2,  R1-&gt;R2 = Gamma^T . R1
+F1 = Concat(R2-&gt;R1, R1),  F2 = Concat(R1-&gt;R2, R2)</div><p style="font-size:0.83rem; color:#666; margin-bottom:24px;">The fused representations F1 and F2 are passed through FCNs with a dense layer of 80 neurons each, concatenated, and processed by a final FCN (120 and 30 neurons) with a sigmoid output layer for binary classification.</p><div class="comp-grid"><div class="comp-card"><div class="comp-tag">Task</div><h4>Synthetic Heart Sound Detection</h4><p>Binary real-vs-spoof detection of neural-audio-codec-synthesized phonocardiograms.</p></div><div class="comp-card"><div class="comp-tag">Fusion</div><h4>Gram-OT Alignment</h4><p>A novel grammian optimal transport mechanism aligning representations via their gram matrices.</p></div><div class="comp-card"><div class="comp-tag">Representations</div><h4>Spectral + SSL</h4><p>MFCC and LFCC capture acoustic-level codec distortions; WavLM and Wav2vec2 capture temporal structure.</p></div><div class="comp-card"><div class="comp-tag">Downstream</div><h4>1D-CNN + FCN</h4><p>Lightweight CNN and max-pooling per branch followed by fusion and a fully connected classifier.</p></div><div class="comp-card"><div class="comp-tag">Best Result</div><h4>93.20% / 5.86% EER</h4><p>GROOT with MFCC + WavLM sets a new SOTA for the SHAC task (Seen condition).</p></div><div class="comp-card"><div class="comp-tag">Goal</div><h4>Robust heart sound CF detection</h4><p>Establishes the first benchmark and baselines for detecting NAC-synthesized heart sounds.</p></div></div></div></section>
+<hr/>
+<section id="results"><div class="container"><h2 class="section-heading">Results</h2><p style="font-size:1rem; font-weight:700; margin-bottom:6px; color:#111;">Table 1: Individual representations for SHAC</p><p class="results-note">CNN-based downstream models consistently outperform their FCN counterparts. Among individual representations, WavLM with CNN is the strongest performer, and SSL features consistently outperform spectral features (MFCC, LFCC) in both Seen and Unseen conditions.</p><div class="table-wrap"><table><thead><tr><th rowspan="2">Representation</th><th colspan="2">FCN</th><th colspan="2">CNN</th></tr><tr><th>ACC</th><th>EER</th><th>ACC</th><th>EER</th></tr></thead><tbody><tr><td colspan="5" style="text-align:left; font-weight:700; background:#f5f7fb;">Seen</td></tr><tr><td>LFCC</td><td>76.99</td><td>15.19</td><td>79.02</td><td>14.96</td></tr><tr><td>MFCC</td><td>77.82</td><td>15.04</td><td>81.56</td><td>12.55</td></tr><tr><td>Wav2vec2</td><td>83.62</td><td>12.13</td><td>86.65</td><td>10.37</td></tr><tr><td>UniSpeech-SAT</td><td>80.30</td><td>12.30</td><td>82.81</td><td>11.59</td></tr><tr><td>WavLM</td><td class="good">84.54</td><td class="good">12.51</td><td class="good">87.72</td><td class="good">9.45</td></tr><tr><td colspan="5" style="text-align:left; font-weight:700; background:#f5f7fb;">Unseen</td></tr><tr><td>LFCC</td><td>72.45</td><td>18.93</td><td>73.99</td><td>18.08</td></tr><tr><td>MFCC</td><td>74.93</td><td>17.60</td><td>78.74</td><td>16.91</td></tr><tr><td>Wav2vec2</td><td>79.56</td><td>16.03</td><td>83.61</td><td>13.74</td></tr><tr><td>UniSpeech-SAT</td><td>74.02</td><td>18.07</td><td>78.47</td><td>18.69</td></tr><tr><td>WavLM</td><td class="good">80.54</td><td class="good">15.01</td><td class="good">84.02</td><td class="good">13.39</td></tr></tbody></table></div><p class="table-caption">Accuracy (ACC, higher is better) and Equal Error Rate (EER, lower is better) in %, for Seen and Unseen conditions.</p><br/><p style="font-size:1rem; font-weight:700; margin-bottom:6px; color:#111;">Table 2: Fusion of representations</p><p class="results-note">GROOT consistently achieves the best overall performance across both Seen and Unseen conditions. Heterogeneous fusion of spectral and SSL representations outperforms homogeneous fusion, and the best performance is achieved by fusing MFCC and WavLM through GROOT.</p><div class="table-wrap"><table><thead><tr><th rowspan="2">Pair</th><th colspan="2">Concat</th><th colspan="2">OT</th><th colspan="2">GROOT</th></tr><tr><th>ACC</th><th>EER</th><th>ACC</th><th>EER</th><th>ACC</th><th>EER</th></tr></thead><tbody><tr><td colspan="7" style="text-align:left; font-weight:700; background:#f5f7fb;">Seen</td></tr><tr><td>LFCC + MFCC</td><td>80.05</td><td>11.82</td><td>82.41</td><td>10.91</td><td class="good">84.61</td><td class="good">8.35</td></tr><tr><td>LFCC + Wav2vec2</td><td>86.18</td><td>8.72</td><td>88.93</td><td>8.10</td><td class="good">90.50</td><td class="good">7.42</td></tr><tr><td>LFCC + UniSpeech-SAT</td><td>81.12</td><td>12.00</td><td>84.50</td><td>11.18</td><td class="good">87.09</td><td class="good">9.63</td></tr><tr><td>LFCC + WavLM</td><td>86.32</td><td>7.18</td><td>88.36</td><td>7.03</td><td class="good">91.77</td><td class="good">6.06</td></tr><tr><td>MFCC + Wav2vec2</td><td>86.57</td><td>7.20</td><td>88.82</td><td>6.87</td><td class="good">90.83</td><td class="good">6.14</td></tr><tr><td>MFCC + UniSpeech-SAT</td><td>84.00</td><td>11.23</td><td>85.88</td><td>11.22</td><td class="good">87.90</td><td class="good">9.72</td></tr><tr><td><strong>MFCC + WavLM</strong></td><td>87.70</td><td>7.40</td><td>89.07</td><td>6.86</td><td class="best">93.20</td><td class="best">5.86</td></tr><tr><td>Wav2vec2 + UniSpeech-SAT</td><td>86.99</td><td>9.87</td><td>87.79</td><td>9.06</td><td class="good">89.00</td><td class="good">8.61</td></tr><tr><td>Wav2vec2 + WavLM</td><td>86.26</td><td>8.32</td><td>88.92</td><td>7.82</td><td class="good">91.60</td><td class="good">6.20</td></tr><tr><td>UniSpeech-SAT + WavLM</td><td>85.01</td><td>10.54</td><td>86.23</td><td>8.92</td><td class="good">88.74</td><td class="good">7.55</td></tr><tr><td colspan="7" style="text-align:left; font-weight:700; background:#f5f7fb;">Unseen</td></tr><tr><td>LFCC + MFCC</td><td>79.28</td><td>16.70</td><td>81.87</td><td>15.22</td><td class="good">83.70</td><td class="good">13.99</td></tr><tr><td>LFCC + Wav2vec2</td><td>84.11</td><td>12.34</td><td>84.25</td><td>10.83</td><td class="good">86.00</td><td class="good">9.87</td></tr><tr><td>LFCC + UniSpeech-SAT</td><td>79.05</td><td>17.98</td><td>80.47</td><td>16.00</td><td class="good">82.39</td><td class="good">14.80</td></tr><tr><td>LFCC + WavLM</td><td>81.22</td><td>13.27</td><td>83.01</td><td>12.87</td><td class="good">85.31</td><td class="good">10.98</td></tr><tr><td>MFCC + Wav2vec2</td><td>81.00</td><td>12.08</td><td>84.72</td><td>10.34</td><td class="good">85.78</td><td class="good">10.70</td></tr><tr><td>MFCC + UniSpeech-SAT</td><td>80.72</td><td>14.89</td><td>81.51</td><td>13.70</td><td class="good">83.04</td><td class="good">11.49</td></tr><tr><td><strong>MFCC + WavLM</strong></td><td>84.33</td><td>13.11</td><td>84.99</td><td>12.06</td><td class="best">86.10</td><td class="best">9.75</td></tr><tr><td>Wav2vec2 + UniSpeech-SAT</td><td>83.11</td><td>13.38</td><td>84.20</td><td>12.40</td><td class="good">85.81</td><td class="good">11.13</td></tr><tr><td>Wav2vec2 + WavLM</td><td>83.97</td><td>12.90</td><td>84.09</td><td>11.29</td><td class="good">85.70</td><td class="good">10.00</td></tr><tr><td>UniSpeech-SAT + WavLM</td><td>81.02</td><td>15.80</td><td>82.68</td><td>14.10</td><td class="good">84.48</td><td class="good">12.51</td></tr></tbody></table></div><p class="table-caption">Accuracy (ACC, higher is better) and Equal Error Rate (EER, lower is better) in %. OT: Optimal Transport baseline (same architecture as GROOT, without Gram-OT).</p><br/><p style="font-size:1rem; font-weight:700; margin-bottom:6px; color:#111;">Comparison to SOTA Audio Deepfake Baselines</p><p class="results-note">GROOT (MFCC + WavLM) is compared against AASIST and MiO, strong general audio deepfake detection baselines, trained under the same configuration.</p><div class="table-wrap"><table><thead><tr><th rowspan="2">Model</th><th colspan="2">Seen</th><th colspan="2">Unseen</th></tr><tr><th>ACC</th><th>EER</th><th>ACC</th><th>EER</th></tr></thead><tbody><tr><td>AASIST</td><td>85.15</td><td>14.91</td><td>73.13</td><td>16.43</td></tr><tr><td>MiO</td><td>86.98</td><td>12.34</td><td>75.89</td><td>14.09</td></tr><tr><td><strong>GROOT (MFCC + WavLM)</strong></td><td class="best">93.20</td><td class="best">5.86</td><td class="best">86.10</td><td class="best">9.75</td></tr></tbody></table></div><p class="table-caption">Accuracy (ACC, higher is better) and Equal Error Rate (EER, lower is better) in %.</p></div></section>
+<hr/>
+<section id="datasets"><div class="container"><h2 class="section-heading">Dataset and Codecs</h2><p style="color:#555; font-size:0.93rem; margin-bottom:20px; line-height:1.7;">CARDIOFAKE pairs authentic phonocardiograms with codec-resynthesized counterparts produced by 7 neural audio codec families, with dedicated seen and unseen evaluation protocols.</p><div class="ds-grid"><div class="ds-card"><span class="ds-lang">Source Recordings</span><h4>CirCor DigiScope (PhysioNet)</h4><p>963 patients, each labeled Present, Absent, or Unknown. 3,163 phonocardiogram recordings with durations from 5 to 65 seconds.</p><span class="ds-role role-src">Source recordings</span></div><div class="ds-card"><span class="ds-lang">Seen Protocol</span><h4>SNAC, DAC, EnCodec, SoundStream, SpeechTokenizer</h4><p>Used to generate CF samples for the training, validation, and seen test splits.</p><span class="ds-role role-codec">Codec backbones</span></div><div class="ds-card"><span class="ds-lang">Unseen Protocol</span><h4>FunCodec, AudioDec</h4><p>Held-out codecs used only at test time to evaluate generalization to unseen NACs.</p><span class="ds-role role-codec">Codec backbones</span></div><div class="ds-card"><span class="ds-lang">Resulting Dataset</span><h4>CARDIOFAKE</h4><p>3,163 real heart sounds paired with 22,141 NAC-generated counterparts across 7 codec families (seen + unseen).</p><span class="ds-role role-codec">Real + Spoof pairs</span></div></div></div></section>
+<hr/>
+<section id="samples"><div class="container"><h2 class="section-heading">Audio Samples</h2><p class="results-note">Sample rows below are loaded from <code>audio/manifest.js</code>. Each row pairs a real heart sound recording with its codec-generated counterpart.</p><div class="sample-table-wrap"><table><thead><tr><th>Codec</th><th>Ground Truth ID</th><th>GT Heart Sound</th><th>Generated Heart Sound</th><th>Source</th></tr></thead><tbody id="samples-tbody"></tbody></table></div></div></section>
+<hr/>
+<section id="citation"><div class="container"><h2 class="section-heading">Citation</h2><p style="color:#555; font-size:0.93rem; margin-bottom:18px;">If you use the CARDIOFAKE dataset or GROOT, please cite the paper as follows:</p><div class="bibtex-wrap" id="bib"><button class="copy-btn" onclick="copyBib()">Copy BibTeX</button><span style="color:#888">@inproceedings</span>{shac-interspeech2026,
+  <span style="color:#3273dc">title</span>     = {Towards Detecting Neural Audio Codec Synthesized Heart Sounds},
+  <span style="color:#3273dc">author</span>    = {Girish and Phukan, Orchid Chetia and Akhtar, Mohd Mujtaba and Kuwar, Bhavinkumar Vinodbhai and Behera, Swarup Ranjan and Buduru, Arun Balaji},
+  <span style="color:#3273dc">booktitle</span> = {Proceedings of Interspeech 2026},
+  <span style="color:#3273dc">year</span>      = {2026},
+  <span style="color:#3273dc">pages</span>     = {TBD},
+}</div><p style="font-size:0.8rem; color:#999; margin-top:10px;">Update page numbers in the citation once the proceedings version is finalized.</p></div></section>
+<footer><div class="container"><p style="margin-bottom:6px;"><strong>SHAC</strong> · Synthetic Heart Sound Detection for codec-synthesized phonocardiograms</p><p>CARDIOFAKE benchmark · GROOT · The full dataset and code will be released after the double-blind review process</p><p style="margin-top:10px; font-size:0.78rem;">Accepted to Interspeech 2026.</p></div></footer>
+<script>
+  const MANIFEST_SRC = "audio/manifest.js";
+  let manifestData = [];
+  function escapeHtml(str) { return String(str).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;"); }
+  function renderSampleMessage(message) {
+    const tbody = document.getElementById("samples-tbody");
+    tbody.innerHTML = `<tr><td colspan="5">${escapeHtml(message)}</td></tr>`;
+  }
+  function renderSamples() {
+    const rows = manifestData;
+    const tbody = document.getElementById("samples-tbody");
+    tbody.innerHTML = "";
+    if (!rows.length) {
+      renderSampleMessage("No samples found.");
+      return;
+    }
+    for (const item of rows) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${escapeHtml(item.codec || "-")}</td>
+        <td>${escapeHtml(item.gt_id || "-")}</td>
+        <td>${item.gt_url ? `<audio controls preload="none"><source src="${escapeHtml(item.gt_url)}" type="audio/wav"></audio>` : `<span class="missing">Missing</span>`}</td>
+        <td>${item.gen_url ? `<audio controls preload="none"><source src="${escapeHtml(item.gen_url)}" type="audio/wav"></audio>` : `<span class="missing">Missing</span>`}</td>
+        <td><span class="condition-pill">${escapeHtml(item.source || "-")}</span></td>
+      `;
+      tbody.appendChild(tr);
+    }
+  }
+  function copyBib() {
+    const raw = `@inproceedings{shac-interspeech2026,
+  title     = {Towards Detecting Neural Audio Codec Synthesized Heart Sounds},
+  author    = {Girish and Phukan, Orchid Chetia and Akhtar, Mohd Mujtaba and Kuwar, Bhavinkumar Vinodbhai and Behera, Swarup Ranjan and Buduru, Arun Balaji},
+  booktitle = {Proceedings of Interspeech 2026},
+  year      = {2026},
+  pages     = {TBD}
+}`;
+    navigator.clipboard.writeText(raw).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      const original = btn.textContent;
+      btn.textContent = 'Copied';
+      btn.style.background = '#1a7f3c';
+      btn.style.color = '#fff';
+      btn.style.borderColor = '#1a7f3c';
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.style.background = '';
+        btn.style.color = '';
+        btn.style.borderColor = '';
+      }, 2000);
+    });
+  }
+  (function loadManifest() {
+    const script = document.createElement("script");
+    script.src = MANIFEST_SRC;
+    script.onload = () => {
+      const raw = Array.isArray(window.MANIFEST_RAW) ? window.MANIFEST_RAW : null;
+      if (!raw) {
+        renderSampleMessage("Manifest loaded, but window.MANIFEST_RAW is missing.");
+        return;
+      }
+      manifestData = raw;
+      renderSamples();
+    };
+    script.onerror = () => {
+      renderSampleMessage(`Failed to load manifest at ${MANIFEST_SRC}.`);
+    };
+    document.body.appendChild(script);
+  })();
+</script>
+</body>
+</html>
