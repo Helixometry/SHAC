@@ -1,0 +1,27 @@
+# Byte-compiled
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution
+build/
+develop-eggs/
+dist/
+.eggs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+# Data and models
+models/checkpoints/
+*.wav
+*.mp3
+
+# Results
+results/
+logs/

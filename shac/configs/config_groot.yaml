@@ -1,0 +1,31 @@
+# GROOT Configuration for Heart Sound Deepfake Detection
+
+model:
+  spectral_dim: 13              # MFCC dimension
+  ssl_dim: 768                  # WavLM dimension
+  hidden_dim: 256               # Fusion dimension
+  dropout: 0.3
+
+training:
+  batch_size: 32
+  epochs: 50
+  learning_rate: 1e-4
+  weight_decay: 1e-2
+  gradient_clip: 1.0
+
+scheduler:
+  type: ReduceLROnPlateau
+  factor: 0.5
+  patience: 5
+
+data:
+  sample_rate: 4000             # Heart sound sampling rate
+  max_length: 10                # Max audio length in seconds
+
+device: cuda
+seed: 42
+num_workers: 4
+
+logging:
+  tensorboard: true
+  log_interval: 10
