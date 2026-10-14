@@ -7,7 +7,6 @@ setup(
     name="SHAC",
     version="1.0.0",
     author="Girish, Orchid Chetia Phukan, Mohd Mujtaba Akhtar, Bhavinkumar Vinodbhai Kuwar, Swarup Ranjan Behera, Arun Balaji Buduru",
-    author_email="girish281003@gmail.com",
     description="Detecting Neural Audio Codec Synthesized Heart Sounds",
     long_description=long_description,
     long_description_content_type="text/markdown",
