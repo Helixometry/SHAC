@@ -222,7 +222,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 - **Girish** - girish281003@gmail.com
 - **Orchid Chetia Phukan**
-- **Mohd Mujtaba Akhtar**
+- **Mohd Mujtaba Akhtar** - mmakhtar.research@gmail.com
 - **Bhavinkumar Vinodbhai Kuwar**
 - **Swarup Ranjan Behera**
 - **Arun Balaji Buduru**
